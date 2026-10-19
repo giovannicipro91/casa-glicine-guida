@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Guida Casa Glicine</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;600;700&display=swap">
+<style>
+/* Layout: una colonna da telefono; barra di navigazione a chip fissa in alto, sezioni a schede brevi da consultare al volo */
+:root{
+  --bg:#f3f2ee; --surface:#ffffff; --ink:#1f2a24; --muted:#5f6b63;
+  --olive:#3e5a3a; --sea:#1f6f8b; --line:#dcdfd6; --chip:#e6ebe2; --today:#e3f0f4;
+  --display:"Young Serif", Georgia, serif;
+  --body:"Figtree", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#131815; --surface:#1c231f; --ink:#e7ece6; --muted:#9aa79e;
+  --olive:#9cc092; --sea:#7cc4dc; --line:#2c3630; --chip:#26302a; --today:#173039; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131815; --surface:#1c231f; --ink:#e7ece6; --muted:#9aa79e;
+  --olive:#9cc092; --sea:#7cc4dc; --line:#2c3630; --chip:#26302a; --today:#173039; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.inner{max-width:480px;margin:0 auto}
+header{padding-block:24px 8px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;color:var(--muted)}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{font:inherit;font-weight:700;border:0;background:transparent;color:var(--muted);padding:5px 12px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--olive);color:var(--bg)}
+h1{font-family:var(--display);font-weight:400;font-size:38px;line-height:1.05;margin:18px 0 6px;text-wrap:balance}
+.where{color:var(--muted);margin:0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line)}
+nav .inner{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav a{flex:none;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;background:var(--chip);border-radius:999px;padding:6px 12px}
+main{padding-block:16px 48px}
+main .inner{display:flex;flex-direction:column;gap:14px}
+section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;scroll-margin-top:70px}
+h2{font-family:var(--display);font-weight:400;font-size:22px;margin:0;color:var(--olive)}
+p{margin:0}
+.wifi{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline}
+.wifi dt{color:var(--muted);font-size:14px}
+.wifi dd{margin:0;font-weight:700;font-size:18px;min-width:0;overflow-wrap:anywhere;user-select:all}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:10px 16px;background:var(--sea);color:#fff;cursor:pointer;align-self:flex-start}
+.hint{font-size:13px;color:var(--muted)}
+.times{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.time{background:var(--chip);border-radius:10px;padding:12px}
+.time b{display:block;font-family:var(--display);font-weight:400;font-size:28px;font-variant-numeric:tabular-nums}
+.time span{font-size:13px;color:var(--muted)}
+ol,ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.week{display:flex;flex-direction:column}
+.day{display:grid;grid-template-columns:90px 1fr;gap:10px;padding:8px;border-radius:8px}
+.day.on{background:var(--today);font-weight:700}
+.day .d{color:var(--muted)}
+.day.on .d{color:var(--sea)}
+.place{display:flex;flex-direction:column;gap:2px;padding-block:8px;border-top:1px solid var(--line)}
+.place:first-of-type{border-top:0}
+.place b{font-weight:700}
+.place span{font-size:14px;color:var(--muted)}
+.host{display:flex;flex-direction:column;gap:4px}
+.phone{font-family:var(--display);font-size:26px;user-select:all;font-variant-numeric:tabular-nums}
+.sos{font-size:14px;color:var(--muted)}
+.cta{border:2px solid var(--sea)}
+.demo{font-size:13px;color:var(--muted);text-align:center}
+a:focus-visible,button:focus-visible{outline:3px solid var(--sea);outline-offset:2px}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+</head>
+<body>
+<header class="pad"><div class="inner">
+  <div class="top">
+    <span data-en="Example guide · invented details">Guida d'esempio · dati inventati</span>
+    <div class="lang" role="group" aria-label="Lingua">
+      <button type="button" id="it" aria-pressed="true">IT</button>
+      <button type="button" id="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+  <h1 data-en="Welcome to Casa Glicine">Benvenuti a Casa Glicine</h1>
+  <p class="where" data-en="Via dei Mocenigo 14, Lecce · second floor, green door">Via dei Mocenigo 14, Lecce · secondo piano, portone verde</p>
+</div></header>
+
+<nav class="pad" aria-label="Sezioni"><div class="inner">
+  <a href="#wifi">Wi-Fi</a>
+  <a href="#orari" data-en="Check-in">Orari</a>
+  <a href="#casa" data-en="House rules">Regole</a>
+  <a href="#rifiuti" data-en="Rubbish">Rifiuti</a>
+  <a href="#mangiare" data-en="Eat">Mangiare</a>
+  <a href="#aiuto" data-en="Help">Aiuto</a>
+</div></nav>
+
+<main class="pad"><div class="inner">
+
+  <section id="wifi">
+    <h2>Wi-Fi</h2>
+    <dl class="wifi">
+      <dt data-en="Network">Rete</dt><dd>CasaGlicine_Ospiti</dd>
+      <dt>Password</dt><dd id="pw">barocco2026</dd>
+    </dl>
+    <button class="btn" type="button" id="copy" data-en="Copy password">Copia password</button>
+    <p class="hint" id="copied" data-en="The router is behind the TV. If the connection drops, unplug it for 10 seconds.">Il router è dietro la TV. Se la connessione cade, staccalo per 10 secondi.</p>
+  </section>
+
+  <section id="orari">
+    <h2 data-en="Arrival and departure">Arrivo e partenza</h2>
+    <div class="times">
+      <div class="time"><span data-en="Check-in from">Check-in dalle</span><b>15:00</b></div>
+      <div class="time"><span data-en="Check-out by">Check-out entro le</span><b>10:30</b></div>
+    </div>
+    <ol>
+      <li data-en="The key box is to the right of the door. The code is in the message Marta sent you on Airbnb.">La cassetta delle chiavi è a destra del portone. Il codice è nel messaggio che Marta ti ha mandato su Airbnb.</li>
+      <li data-en="When you leave, put the keys back in the box and scramble the code.">Quando parti, rimetti le chiavi nella cassetta e gira i numeri.</li>
+      <li data-en="Need a late check-out? Ask by 8 pm the night before.">Ti serve un check-out più tardi? Chiedilo entro le 20 della sera prima.</li>
+    </ol>
+  </section>
+
+  <section id="casa">
+    <h2 data-en="House rules">Regole della casa</h2>
+    <ul>
+      <li data-en="Quiet hours from 11 pm to 8 am: the neighbours are early risers.">Silenzio dalle 23 alle 8: i vicini si alzano presto.</li>
+      <li data-en="No smoking inside. The ashtray is on the terrace.">Non si fuma in casa. Il posacenere è in terrazza.</li>
+      <li data-en="Turn off the air conditioning when you go out.">Spegni l'aria condizionata quando esci.</li>
+      <li data-en="Coffee, tea and the moka pot are in the cupboard above the sink. Help yourself.">Caffè, tè e moka sono nel mobile sopra il lavello. Servitevi pure.</li>
+    </ul>
+  </section>
+
+  <section id="rifiuti">
+    <h2 data-en="Rubbish collection">Raccolta differenziata</h2>
+    <p class="hint" data-en="Leave the bag outside the door after 9 pm the evening before. Today is highlighted.">Lascia il sacchetto fuori dal portone dopo le 21 della sera prima. Oggi è evidenziato.</p>
+    <div class="week" id="week"></div>
+  </section>
+
+  <section id="mangiare">
+    <h2 data-en="Where to eat (Marta's picks)">Dove mangiare (consigliati da Marta)</h2>
+    <div class="place"><b>Trattoria Le Zie</b><span data-en="Home cooking, 5 min on foot. Try the ciceri e tria. Book ahead.">Cucina di casa, 5 minuti a piedi. Prova i ciceri e tria. Meglio prenotare.</span></div>
+    <div class="place"><b>Pasticceria del Duomo</b><span data-en="Pasticciotto and iced coffee with almond milk for breakfast.">Pasticciotto e caffè in ghiaccio con latte di mandorla a colazione.</span></div>
+    <div class="place"><b>Mercato di Porta Rudiae</b><span data-en="Fresh fruit and cheese, open mornings only, closed Sunday.">Frutta e formaggi freschi, solo la mattina, chiuso la domenica.</span></div>
+  </section>
+
+  <section id="aiuto">
+    <h2 data-en="Need help?">Serve aiuto?</h2>
+    <div class="host">
+      <span data-en="Marta, your host · WhatsApp or call">Marta, la tua host · WhatsApp o chiamata</span>
+      <span class="phone">333 000 0000</span>
+    </div>
+    <p class="sos" data-en="Emergencies: 112 · Nearest pharmacy: Farmacia Centrale, Piazza Sant'Oronzo">Emergenze: 112 · Farmacia più vicina: Farmacia Centrale, Piazza Sant'Oronzo</p>
+  </section>
+
+  <section class="cta" aria-label="Per i proprietari">
+    <h2 data-en="Want a guide like this for your property?">Vuoi una guida così per la tua struttura?</h2>
+    <p data-en="Ready in 48 hours, in Italian and English, with a QR code to print. Giovanni, Aversa.">Pronta in 48 ore, in italiano e inglese, con QR da stampare. Giovanni, Aversa.</p>
+    <span class="phone">353 329 4179</span>
+  </section>
+  <p class="demo" data-en="This guide opens from the QR code on the fridge">Questa guida si apre dal QR attaccato al frigo</p>
+</div></main>
+
+<script>
+const week=[
+  {it:'Lunedì',en:'Monday',wit:'Organico',wen:'Food waste'},
+  {it:'Martedì',en:'Tuesday',wit:'Plastica e metalli',wen:'Plastic and cans'},
+  {it:'Mercoledì',en:'Wednesday',wit:'Organico',wen:'Food waste'},
+  {it:'Giovedì',en:'Thursday',wit:'Carta e cartone',wen:'Paper and cardboard'},
+  {it:'Venerdì',en:'Friday',wit:'Vetro',wen:'Glass'},
+  {it:'Sabato',en:'Saturday',wit:'Organico',wen:'Food waste'},
+  {it:'Domenica',en:'Sunday',wit:'Indifferenziato',wen:'General waste'}
+];
+let lang='it';
+function drawWeek(){
+  const today=(new Date().getDay()+6)%7, box=document.getElementById('week');
+  box.innerHTML='';
+  week.forEach((d,i)=>{
+    const r=document.createElement('div');r.className='day'+(i===today?' on':'');
+    const a=document.createElement('span');a.className='d';a.textContent=lang==='it'?d.it:d.en;
+    const b=document.createElement('span');b.textContent=lang==='it'?d.wit:d.wen;
+    r.append(a,b);box.append(r);
+  });
+}
+const els=[...document.querySelectorAll('[data-en]')];
+els.forEach(e=>e.dataset.it=e.textContent);
+function setLang(l){
+  lang=l;document.documentElement.lang=l;
+  els.forEach(e=>e.textContent=e.dataset[l]);
+  document.getElementById('it').setAttribute('aria-pressed',l==='it');
+  document.getElementById('en').setAttribute('aria-pressed',l==='en');
+  drawWeek();
+  try{localStorage.setItem('lang',l)}catch(e){}
+}
+document.getElementById('it').onclick=()=>setLang('it');
+document.getElementById('en').onclick=()=>setLang('en');
+let saved=null;try{saved=localStorage.getItem('lang')}catch(e){}
+if(!saved&&!navigator.language.startsWith('it'))saved='en';
+setLang(saved||'it');
+document.getElementById('copy').addEventListener('click',()=>{
+  const pw=document.getElementById('pw').textContent, msg=document.getElementById('copied');
+  const ok=()=>{msg.textContent=lang==='it'?'Password copiata.':'Password copied.'};
+  const sel=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('pw'));const s=getSelection();s.removeAllRanges();s.addRange(r)};
+  try{navigator.clipboard.writeText(pw).then(ok).catch(sel)}catch(e){sel()}
+});
+</script>
+</body>
+</html>
